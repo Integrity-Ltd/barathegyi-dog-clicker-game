@@ -1,12 +1,13 @@
 {
-  "name": "react-typescript",
+  "name": "barathegyi-dog-clicker-game",
   "version": "1.0.0",
-  "description": "React and TypeScript example starter project",
+  "description": "A game for the Baráthegyi Guide Dog School",
   "keywords": [
-    "typescript",
-    "react",
-    "starter"
+    "guide dog",
+    "game",
+    "clicker"
   ],
+  "homepage": "https://integrity-ltd.github.io/barathegyi-dog-clicker-game/build/",
   "main": "src/index.tsx",
   "dependencies": {
     "loader-utils": "3.2.1",
