@@ -1,5 +1,11 @@
-import ClickerTrainer from "./ClickerTrainer.jsx";
+import { LazyMotion, domAnimation } from "framer-motion";
+
+import { ClickerTrainer } from "./ClickerTrainer";
 
 export default function App() {
-  return <ClickerTrainer />;
+  return (
+    <LazyMotion features={domAnimation}>
+      <ClickerTrainer />
+    </LazyMotion>
+  );
 }
