@@ -43,29 +43,29 @@ export function GameBoard({
   onOpenCertificate,
 }: GameBoardProps) {
   const { t } = useTranslation();
-  const flashBorder =
+  const flashBorderColor =
     flash === "good"
-      ? "border-emerald-400"
+      ? "#10b981"
       : flash === "bad"
-        ? "border-rose-300"
+        ? "#e11d48"
         : flash === "neutral"
-          ? "border-slate-400"
-          : "border-white";
+          ? "var(--board-neutral-border)"
+          : "var(--board-border)";
 
   return (
     <div
-      className={`relative w-full rounded-2xl overflow-hidden shadow-inner border-4 transition-colors duration-200 ${flashBorder}`}
+      className="relative w-full rounded-2xl overflow-hidden shadow-inner border-4 transition-colors duration-200"
       style={{
         aspectRatio: "1 / 1",
+        borderColor: flashBorderColor,
         background:
           "repeating-linear-gradient(90deg, #ead8b6 0px, #ead8b6 38px, #e1ccA3 38px, #e1cca3 40px)",
       }}
     >
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="theme-board-frame absolute inset-0 pointer-events-none"
         style={{
           zIndex: 3,
-          boxShadow: "inset 0 0 0 6px #c9b083, inset 0 0 0 8px #b69a6a",
         }}
       />
 
@@ -135,7 +135,7 @@ export function GameBoard({
 
       {hintsOn && mode === "frozen" && (
         <div
-          className="absolute left-1/2 top-2 -translate-x-1/2 rounded-full border border-slate-200 bg-white/95 px-3 py-1 text-xs font-semibold text-slate-900 shadow"
+          className="theme-hint absolute left-1/2 top-2 -translate-x-1/2 rounded-full border px-3 py-1 text-xs font-semibold shadow"
           style={{ zIndex: 40 }}
         >
           {t("hints.frozenCountdown", {
@@ -145,7 +145,7 @@ export function GameBoard({
       )}
       {hintsOn && mode === "stay" && lieType === "rear" && (
         <div
-          className="absolute left-1/2 top-2 -translate-x-1/2 rounded-full border border-slate-200 bg-white/95 px-3 py-1 text-xs font-semibold text-slate-900 shadow"
+          className="theme-hint absolute left-1/2 top-2 -translate-x-1/2 rounded-full border px-3 py-1 text-xs font-semibold shadow"
           style={{ zIndex: 40 }}
         >
           {t("hints.rearLie")}
@@ -166,13 +166,13 @@ export function GameBoard({
 
       {won && !showCertificate && (
         <div
-          className="absolute inset-0 flex items-center justify-center bg-emerald-500/20"
+          className="theme-board-overlay absolute inset-0 flex items-center justify-center"
           style={{ zIndex: 40 }}
         >
           <button
             type="button"
             onClick={onOpenCertificate}
-            className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/95 px-4 py-3 font-bold text-emerald-800 shadow"
+            className="theme-hint flex items-center gap-2 rounded-xl border px-4 py-3 font-bold shadow"
           >
             <Award size={20} /> {t("ui.openCertificate")}
           </button>

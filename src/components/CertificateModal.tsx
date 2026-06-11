@@ -32,33 +32,33 @@ export function CertificateModal({
     : t("certificate.modalIndependentSummary", { clicks: formattedClicks });
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-      <div className="flex w-full max-w-md flex-col gap-4 rounded-2xl bg-white p-5 shadow-2xl ring-1 ring-slate-200">
+    <div className="theme-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="theme-panel flex w-full max-w-md flex-col gap-4 rounded-2xl border p-5">
         <div className="text-center">
-          <div className="mx-auto h-20 w-20 rounded-2xl bg-amber-50 p-2 shadow ring-2 ring-amber-300">
+          <div className="theme-logo-tile mx-auto h-20 w-20 rounded-2xl border p-2 shadow">
             <LogoGraphic />
           </div>
-          <h2 className="mt-2 text-xl font-extrabold text-slate-800">
+          <h2 className="theme-text mt-2 text-xl font-extrabold">
             {title}
           </h2>
-          <p className="text-sm text-slate-700">
+          <p className="theme-subtle text-sm">
             {t("certificate.exerciseName")}
           </p>
         </div>
 
-        <p className="text-center text-slate-900">
+        <p className="theme-text text-center">
           {summary}
         </p>
 
         {completion.assisted ? (
-          <div className="rounded-xl border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
+          <div className="theme-assist-note rounded-xl border p-3 text-sm">
             <span className="font-semibold">
               {t("certificate.nextChallengeTitle")}
             </span>{" "}
             {t("certificate.nextChallengeBody")}
           </div>
         ) : (
-          <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-center text-sm font-semibold text-amber-800">
+          <div className="theme-achievement-note rounded-xl border p-3 text-center text-sm font-semibold">
             {t("certificate.independentBadge")}
           </div>
         )}
@@ -66,7 +66,7 @@ export function CertificateModal({
         <div>
           <label
             htmlFor="volunteer-name"
-            className="text-xs font-semibold text-slate-700"
+            className="theme-subtle text-xs font-semibold"
           >
             {t("certificate.volunteerNameLabel")}
           </label>
@@ -75,17 +75,15 @@ export function CertificateModal({
             value={volunteerName}
             onChange={(event) => onVolunteerNameChange(event.target.value)}
             placeholder={t("certificate.volunteerNamePlaceholder")}
-            className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="theme-input mt-1 w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
           />
         </div>
 
         <button
           type="button"
           onClick={onDownload}
-          className={`w-full flex items-center justify-center gap-2 text-white font-bold py-3 rounded-xl shadow ${
-            completion.assisted
-              ? "bg-blue-600 hover:bg-blue-700"
-              : "bg-amber-500 hover:bg-amber-600"
+          className={`w-full flex items-center justify-center gap-2 font-bold py-3 rounded-xl shadow ${
+            completion.assisted ? "theme-primary-button" : "theme-accent-button"
           }`}
         >
           <Download size={18} />
@@ -94,7 +92,7 @@ export function CertificateModal({
         <button
           type="button"
           onClick={onClose}
-          className="text-sm text-slate-600 hover:text-slate-800"
+          className="theme-subtle text-sm hover:underline"
         >
           {t("certificate.close")}
         </button>

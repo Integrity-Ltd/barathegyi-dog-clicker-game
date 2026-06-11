@@ -17,13 +17,13 @@ export function LanguageSelector() {
   };
 
   return (
-    <label className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+    <label className="theme-subtle flex items-center gap-2 text-xs font-semibold">
       <Languages size={14} />
       <select
         aria-label={t("ui.language")}
         value={language}
         onChange={handleChange}
-        className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-semibold text-slate-900 shadow focus:outline-none focus:ring-2 focus:ring-amber-400"
+        className="theme-select rounded-full border px-3 py-1 text-sm font-semibold shadow focus:outline-none focus:ring-2 focus:ring-amber-400"
       >
         {languageOptions.map((option) => (
           <option key={option.code} value={option.code}>

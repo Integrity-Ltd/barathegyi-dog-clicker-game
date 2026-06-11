@@ -90,7 +90,7 @@ export function ClickerTrainer() {
         )}
 
         {game.hintsOn && (
-          <div className="min-h-12 rounded-xl border border-slate-200 bg-white p-3 text-sm font-medium text-slate-900 shadow flex items-center">
+          <div className="theme-card min-h-12 rounded-xl border p-3 text-sm font-medium shadow flex items-center">
             {t(`game.${game.helpMessageKey}`)}
           </div>
         )}
@@ -99,8 +99,8 @@ export function ClickerTrainer() {
           type="button"
           onClick={game.actions.handleClick}
           disabled={game.won}
-          className={`w-full py-6 rounded-2xl text-white text-2xl font-extrabold shadow-lg active:scale-95 transition-transform ${
-            game.won ? "bg-slate-600" : "bg-blue-600 active:bg-blue-700"
+          className={`w-full py-6 rounded-2xl text-2xl font-extrabold shadow-lg active:scale-95 transition-transform ${
+            game.won ? "theme-disabled-button" : "theme-primary-button"
           }`}
         >
           {t("ui.click")}

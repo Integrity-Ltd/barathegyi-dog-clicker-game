@@ -19,21 +19,24 @@ export function StayProgressBar({ elapsedSeconds }: StayProgressBarProps) {
   );
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-3 shadow">
+    <div className="theme-card rounded-xl border p-3 shadow">
       <div className="mb-2 flex items-center justify-between gap-3 text-sm font-bold">
-        <span className="text-slate-900">
+        <span className="theme-text">
           {t("ui.stayProgress")}
         </span>
-        <span className="text-emerald-700">
+        <span className="theme-success-text">
           {t("ui.stayRemaining", {
             seconds: formatNumber(language, remainingSeconds),
           })}
         </span>
       </div>
-      <div className="h-4 overflow-hidden rounded-full bg-slate-200 shadow-inner">
+      <div className="theme-progress-track h-4 overflow-hidden rounded-full shadow-inner">
         <div
-          className="h-full rounded-full bg-emerald-500 transition-[width] duration-100"
-          style={{ width: `${progress * 100}%` }}
+          className="h-full rounded-full transition-[width] duration-100"
+          style={{
+            width: `${progress * 100}%`,
+            background: "var(--success-fill)",
+          }}
         />
       </div>
     </div>

@@ -18,6 +18,34 @@
       property="og:description"
       content="Interaktív gyakorló játék önkénteseknek."
     />
+    <script>
+      (() => {
+        const storageKey = "clicker-theme";
+        let storedTheme = null;
+
+        try {
+          storedTheme = localStorage.getItem(storageKey);
+        } catch {
+          storedTheme = null;
+        }
+
+        const theme =
+          storedTheme === "dark" || storedTheme === "light"
+            ? storedTheme
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+
+        try {
+          localStorage.setItem(storageKey, theme);
+        } catch {
+          /* Ignore unavailable localStorage. */
+        }
+      })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>

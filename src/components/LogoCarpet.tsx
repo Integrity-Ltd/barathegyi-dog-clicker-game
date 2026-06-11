@@ -4,7 +4,7 @@ import { LogoGraphic } from "./GamePieces";
 export function LogoCarpet() {
   return (
     <div
-      className="absolute drop-shadow-md"
+      className="theme-logo-carpet absolute drop-shadow-md"
       style={{
         left: `${CARPET.cx - CARPET.radius}%`,
         top: `${CARPET.cy - CARPET.radius}%`,

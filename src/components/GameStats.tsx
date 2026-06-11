@@ -16,19 +16,19 @@ export function GameStats({ progress, clicks, won }: GameStatsProps) {
 
   return (
     <div className="flex gap-2">
-      <div className="flex-1 rounded-xl border border-slate-200 bg-white p-3 text-center shadow">
-        <div className="text-xs font-semibold text-slate-700">
+      <div className="theme-card flex-1 rounded-xl border p-3 text-center shadow">
+        <div className="theme-subtle text-xs font-semibold">
           {t("ui.training")}
         </div>
-        <div className="text-2xl font-extrabold text-emerald-700">
+        <div className="theme-success-text text-2xl font-extrabold">
           {formatNumber(language, visibleProgressPercent)}%
         </div>
       </div>
-      <div className="flex-1 rounded-xl border border-slate-200 bg-white p-3 text-center shadow">
-        <div className="text-xs font-semibold text-slate-700">
+      <div className="theme-card flex-1 rounded-xl border p-3 text-center shadow">
+        <div className="theme-subtle text-xs font-semibold">
           {t("ui.clicks")}
         </div>
-        <div className="text-2xl font-extrabold text-blue-700">
+        <div className="theme-primary-text text-2xl font-extrabold">
           {formatNumber(language, clicks)}
         </div>
       </div>

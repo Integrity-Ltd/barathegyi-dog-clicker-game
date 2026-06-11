@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { HomeHelpModal } from "./HomeHelpModal";
 import { LanguageSelector } from "./LanguageSelector";
 import { LogoGraphic } from "./GamePieces";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface StartScreenProps {
   hintsOn: boolean;
@@ -27,42 +28,43 @@ export function StartScreen({
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="flex w-full max-w-md flex-col items-center gap-4 rounded-3xl bg-white p-6 text-center shadow-xl ring-1 ring-slate-200/70"
+        className="theme-panel flex w-full max-w-md flex-col items-center gap-4 rounded-3xl border p-6 text-center"
       >
         <div className="flex w-full flex-wrap items-center justify-center gap-2">
           <LanguageSelector />
+          <ThemeToggle />
           <button
             type="button"
             onClick={onToggleHints}
             className={`flex items-center gap-1 rounded-full px-3 py-1 text-sm shadow transition-colors ${
               hintsOn
-                ? "bg-blue-600 text-white"
-                : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+                ? "theme-help-active"
+                : "theme-secondary-button"
             }`}
           >
             <HelpCircle size={14} /> {t("ui.help")}{" "}
             {hintsOn ? t("ui.on") : t("ui.off")}
           </button>
         </div>
-        <div className="h-24 w-24 rounded-2xl bg-amber-50 p-1 shadow ring-1 ring-amber-200">
+        <div className="theme-logo-tile h-24 w-24 rounded-2xl border p-1 shadow">
           <LogoGraphic />
         </div>
-        <h1 className="text-xl font-extrabold leading-snug text-slate-800">
+        <h1 className="theme-text text-xl font-extrabold leading-snug">
           {t("start.title")}
           <br />
-          <span className="text-base font-bold text-amber-600">
+          <span className="theme-accent-text text-base font-bold">
             {t("start.subtitle")}
           </span>
         </h1>
-        <p className="text-sm leading-relaxed text-slate-600">
+        <p className="theme-subtle text-sm leading-relaxed">
           {t("start.goalLead")}{" "}
-          <span className="font-semibold text-slate-800">
+          <span className="theme-text font-semibold">
             {t("start.goalStrong")}
           </span>
           {t("start.goalTail")} 🐕
           <br />
           {t("start.helpLead")}{" "}
-          <span className="font-semibold text-blue-700">
+          <span className="theme-primary-text font-semibold">
             {t("start.helpLabel")}
           </span>{" "}
           {t("start.helpTail")}
@@ -70,14 +72,14 @@ export function StartScreen({
         <button
           type="button"
           onClick={onStart}
-          className="mt-2 w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-lg font-extrabold py-4 rounded-2xl shadow-lg active:scale-95 transition-transform"
+          className="theme-primary-button mt-2 w-full flex items-center justify-center gap-2 text-lg font-extrabold py-4 rounded-2xl shadow-lg active:scale-95 transition-transform"
         >
           <Play size={20} /> {t("start.startButton")}
         </button>
         <button
           type="button"
           onClick={() => setShowHelp(true)}
-          className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white py-3 text-sm font-extrabold text-blue-800 shadow hover:bg-blue-50"
+          className="theme-secondary-button flex w-full items-center justify-center gap-2 rounded-2xl py-3 text-sm font-extrabold"
         >
           <HelpCircle size={18} /> {t("start.helpButton")}
         </button>
