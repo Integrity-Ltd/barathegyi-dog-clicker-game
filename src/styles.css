@@ -152,7 +152,7 @@ select:focus-visible {
 }
 
 .theme-success-text {
-  color: var(--success);
+  color: var(--success-fill);
 }
 
 .theme-accent-text {

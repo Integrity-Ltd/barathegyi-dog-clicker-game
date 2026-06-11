@@ -169,6 +169,9 @@ function ProgressVisual() {
         <DogSprite pose="lie" />
       </m.div>
       <div className="absolute bottom-4 left-4 right-4">
+        <div className="mt-2 text-center">
+          <SceneLabel>{t("helpScreen.visualLabels.stayTenSeconds")}</SceneLabel>
+        </div>
         <div className="theme-success-text mb-2 flex items-center justify-between text-xs font-black">
           <span>{t("helpScreen.visualLabels.progressStart")}</span>
           <span>{t("helpScreen.visualLabels.progressEnd")}</span>
@@ -180,9 +183,6 @@ function ProgressVisual() {
             animate={{ scaleX: [0.15, 0.99, 0.99] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
           />
-        </div>
-        <div className="mt-2 text-center">
-          <SceneLabel>{t("helpScreen.visualLabels.stayTenSeconds")}</SceneLabel>
         </div>
       </div>
     </div>

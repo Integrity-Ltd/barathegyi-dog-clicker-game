@@ -24,8 +24,9 @@ void i18n
       suffix: "}",
     },
     detection: {
-      order: ["navigator", "htmlTag"],
-      caches: [],
+      order: ["localStorage", "navigator", "htmlTag"],
+      caches: ["localStorage"],
+      lookupLocalStorage: "clicker-language",
     },
     react: {
       useSuspense: false,

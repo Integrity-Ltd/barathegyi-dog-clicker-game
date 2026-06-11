@@ -52,6 +52,7 @@ interface ClickerGameApi extends GameState {
 const TICK_MS = 60;
 const TICK_SECONDS = TICK_MS / 1000;
 const joyEmojis = ["💛", "✨", "🐾"] as const;
+const hintsStorageKey = "clicker-help-enabled";
 
 type LoopState = Pick<
   GameState,
@@ -91,6 +92,36 @@ function getProgressMessageKey(progress: number): GameMessageKey {
   return "goodTiming";
 }
 
+function getInitialHintsOn() {
+  if (typeof window === "undefined") {
+    return true;
+  }
+
+  try {
+    const storedValue = window.localStorage.getItem(hintsStorageKey);
+
+    if (storedValue === "true") {
+      return true;
+    }
+
+    if (storedValue === "false") {
+      return false;
+    }
+  } catch {
+    return true;
+  }
+
+  return true;
+}
+
+function storeHintsOn(hintsOn: boolean) {
+  try {
+    window.localStorage.setItem(hintsStorageKey, String(hintsOn));
+  } catch {
+    // Some privacy settings disable localStorage; the in-memory toggle still works.
+  }
+}
+
 export function useClickerGame(): ClickerGameApi {
   const [started, setStarted] = useState(false);
   const [loopState, commitLoopState] = useReducer(
@@ -126,7 +157,7 @@ export function useClickerGame(): ClickerGameApi {
   const clicksRef = useRef(0);
   const [clicks, setClicks] = useState(0);
   const [flash, setFlash] = useState<FlashType>(null);
-  const [hintsOn, setHintsOn] = useState(true);
+  const [hintsOn, setHintsOn] = useState(getInitialHintsOn);
   const hintsUsedRef = useRef(false);
   const [helpMessageKey, setHelpMessageKey] =
     useState<GameMessageKey>("initialPrompt");
@@ -303,6 +334,10 @@ export function useClickerGame(): ClickerGameApi {
   const toggleHints = useCallback(() => {
     setHintsOn((currentValue) => !currentValue);
   }, []);
+
+  useEffect(() => {
+    storeHintsOn(hintsOn);
+  }, [hintsOn]);
 
   const reset = useCallback(() => {
     clearEatTimer();
