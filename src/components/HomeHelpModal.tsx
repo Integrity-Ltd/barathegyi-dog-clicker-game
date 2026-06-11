@@ -1,11 +1,10 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Award, MousePointerClick, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
-import type { Messages } from "../i18n/translations";
 import { DogSprite, FurnitureSprite, HandlerSprite, LogoGraphic } from "./GamePieces";
 
 interface HomeHelpModalProps {
-  messages: Messages;
   onClose: () => void;
 }
 
@@ -15,7 +14,6 @@ interface HelpCardProps {
   title: string;
   body: string;
   visual: HelpVisualType;
-  messages: Messages;
 }
 
 const boardBackground =
@@ -37,8 +35,8 @@ function SceneLabel({
   );
 }
 
-function WatchVisual({ messages }: { messages: Messages }) {
-  const labels = messages.helpScreen.visualLabels;
+function WatchVisual() {
+  const { t } = useTranslation();
 
   return (
     <div
@@ -50,74 +48,74 @@ function WatchVisual({ messages }: { messages: Messages }) {
         <LogoGraphic />
       </div>
       <div className="absolute left-6 top-20">
-        <SceneLabel>{labels.mat}</SceneLabel>
+        <SceneLabel>{t("helpScreen.visualLabels.mat")}</SceneLabel>
       </div>
-      <motion.div
+      <m.div
         className="absolute right-8 top-10"
         animate={{ x: [0, -76, -76, 0], rotate: [180, 180, 180, 180] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
         <DogSprite pose="walk" />
-      </motion.div>
-      <motion.div
+      </m.div>
+      <m.div
         className="absolute left-[46%] top-12 text-3xl font-black text-emerald-600 drop-shadow"
         animate={{ x: [12, -8, 12], opacity: [0.4, 1, 0.4] }}
         transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
       >
         ←
-      </motion.div>
+      </m.div>
       <div className="absolute bottom-2 right-3">
-        <SceneLabel>{labels.dog}</SceneLabel>
+        <SceneLabel>{t("helpScreen.visualLabels.dog")}</SceneLabel>
       </div>
     </div>
   );
 }
 
-function RewardVisual({ messages }: { messages: Messages }) {
-  const labels = messages.helpScreen.visualLabels;
+function RewardVisual() {
+  const { t } = useTranslation();
 
   return (
     <div
       className="relative h-32 overflow-hidden rounded-2xl border border-blue-200"
       style={{ background: boardBackground }}
     >
-      <motion.div
+      <m.div
         className="absolute left-3 top-3 flex items-center gap-1 rounded-full bg-blue-600 px-2 py-1 text-[11px] font-black text-white shadow"
         animate={{ scale: [1, 1.08, 1] }}
         transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
       >
-        <MousePointerClick size={13} /> {labels.click}
-      </motion.div>
+        <MousePointerClick size={13} /> {t("helpScreen.visualLabels.click")}
+      </m.div>
       <div className="absolute right-6 top-2">
         <HandlerSprite offering />
       </div>
       <div className="absolute right-9 top-24">
-        <SceneLabel>{labels.handler}</SceneLabel>
+        <SceneLabel>{t("helpScreen.visualLabels.handler")}</SceneLabel>
       </div>
-      <motion.div
+      <m.div
         className="absolute left-8 top-16"
         animate={{ x: [0, 92, 92, 0] }}
         transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
       >
         <DogSprite pose="walk" />
-      </motion.div>
-      <motion.div
+      </m.div>
+      <m.div
         className="absolute right-24 top-[68px] h-4 w-4 rounded-full bg-amber-500 shadow"
         animate={{ scale: [0.85, 1.25, 0.85], opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
       />
       <div className="absolute right-24 top-[84px]">
-        <SceneLabel>{labels.treat}</SceneLabel>
+        <SceneLabel>{t("helpScreen.visualLabels.treat")}</SceneLabel>
       </div>
       <div className="absolute bottom-2 left-3">
-        <SceneLabel>{labels.wait}</SceneLabel>
+        <SceneLabel>{t("helpScreen.visualLabels.wait")}</SceneLabel>
       </div>
     </div>
   );
 }
 
-function AvoidVisual({ messages }: { messages: Messages }) {
-  const labels = messages.helpScreen.visualLabels;
+function AvoidVisual() {
+  const { t } = useTranslation();
 
   return (
     <div
@@ -127,32 +125,32 @@ function AvoidVisual({ messages }: { messages: Messages }) {
       <div className="absolute left-3 top-5">
         <HandlerSprite offering={false} />
       </div>
-      <motion.div
+      <m.div
         className="absolute left-[44%] top-11"
         animate={{ rotate: [-4, 4, -4] }}
         transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <DogSprite pose="stare" />
-      </motion.div>
+      </m.div>
       <div className="absolute right-4 top-7 rotate-90">
         <FurnitureSprite type="cabinet" />
       </div>
       <div className="absolute right-5 top-24">
-        <SceneLabel>{labels.furniture}</SceneLabel>
+        <SceneLabel>{t("helpScreen.visualLabels.furniture")}</SceneLabel>
       </div>
-      <motion.div
+      <m.div
         className="absolute left-1/2 top-3 -translate-x-1/2 rounded-full bg-rose-600 px-3 py-1 text-xs font-black text-white shadow"
         animate={{ scale: [1, 1.08, 1] }}
         transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
       >
-        {labels.doNotClick}
-      </motion.div>
+        {t("helpScreen.visualLabels.doNotClick")}
+      </m.div>
     </div>
   );
 }
 
-function ProgressVisual({ messages }: { messages: Messages }) {
-  const labels = messages.helpScreen.visualLabels;
+function ProgressVisual() {
+  const { t } = useTranslation();
 
   return (
     <div
@@ -162,39 +160,39 @@ function ProgressVisual({ messages }: { messages: Messages }) {
       <div className="absolute left-5 top-5 h-16 w-16 drop-shadow">
         <LogoGraphic />
       </div>
-      <motion.div
+      <m.div
         className="absolute left-8 top-8"
         animate={{ scale: [1, 1.03, 1] }}
         transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
       >
         <DogSprite pose="lie" />
-      </motion.div>
+      </m.div>
       <div className="absolute bottom-4 left-4 right-4">
         <div className="mb-2 flex items-center justify-between text-xs font-black text-emerald-800">
-          <span>{labels.progressStart}</span>
-          <span>{labels.progressEnd}</span>
+          <span>{t("helpScreen.visualLabels.progressStart")}</span>
+          <span>{t("helpScreen.visualLabels.progressEnd")}</span>
         </div>
         <div className="h-4 overflow-hidden rounded-full bg-white shadow-inner">
-          <motion.div
+          <m.div
             className="h-full origin-left rounded-full bg-emerald-500"
             animate={{ scaleX: [0.15, 0.99, 0.99] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
         <div className="mt-2 text-center">
-          <SceneLabel>{labels.stayTenSeconds}</SceneLabel>
+          <SceneLabel>{t("helpScreen.visualLabels.stayTenSeconds")}</SceneLabel>
         </div>
       </div>
     </div>
   );
 }
 
-function CertificateVisual({ messages }: { messages: Messages }) {
-  const labels = messages.helpScreen.visualLabels;
+function CertificateVisual() {
+  const { t } = useTranslation();
 
   return (
     <div className="relative h-32 overflow-hidden rounded-2xl border border-amber-200 bg-amber-50">
-      <motion.div
+      <m.div
         className="absolute left-5 top-4 h-20 w-16 rounded-lg border-4 border-amber-500 bg-white shadow"
         animate={{ y: [8, 0, 0, 8], opacity: [0.65, 1, 1, 0.65] }}
         transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
@@ -204,7 +202,7 @@ function CertificateVisual({ messages }: { messages: Messages }) {
         </div>
         <div className="mx-auto mt-2 h-1 w-10 rounded bg-slate-300" />
         <div className="mx-auto mt-1 h-1 w-8 rounded bg-slate-300" />
-      </motion.div>
+      </m.div>
       <div className="absolute left-24 top-12">
         <Award className="text-amber-700" size={42} />
       </div>
@@ -212,42 +210,36 @@ function CertificateVisual({ messages }: { messages: Messages }) {
         <DogSprite pose="lie" />
       </div>
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-        <SceneLabel>{labels.certificate}</SceneLabel>
+        <SceneLabel>{t("helpScreen.visualLabels.certificate")}</SceneLabel>
       </div>
     </div>
   );
 }
 
-function HelpVisual({
-  visual,
-  messages,
-}: {
-  visual: HelpVisualType;
-  messages: Messages;
-}) {
+function HelpVisual({ visual }: { visual: HelpVisualType }) {
   if (visual === "watch") {
-    return <WatchVisual messages={messages} />;
+    return <WatchVisual />;
   }
 
   if (visual === "reward") {
-    return <RewardVisual messages={messages} />;
+    return <RewardVisual />;
   }
 
   if (visual === "avoid") {
-    return <AvoidVisual messages={messages} />;
+    return <AvoidVisual />;
   }
 
   if (visual === "progress") {
-    return <ProgressVisual messages={messages} />;
+    return <ProgressVisual />;
   }
 
-  return <CertificateVisual messages={messages} />;
+  return <CertificateVisual />;
 }
 
-function HelpCard({ title, body, visual, messages }: HelpCardProps) {
+function HelpCard({ title, body, visual }: HelpCardProps) {
   return (
     <article className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-      <HelpVisual visual={visual} messages={messages} />
+      <HelpVisual visual={visual} />
       <h3 className="mt-3 text-sm font-extrabold text-slate-900">
         {title}
       </h3>
@@ -258,24 +250,26 @@ function HelpCard({ title, body, visual, messages }: HelpCardProps) {
   );
 }
 
-export function HomeHelpModal({ messages, onClose }: HomeHelpModalProps) {
+export function HomeHelpModal({ onClose }: HomeHelpModalProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
       <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl bg-white p-5 shadow-2xl ring-1 ring-slate-200">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="text-xl font-extrabold text-slate-900">
-              {messages.helpScreen.title}
+              {t("helpScreen.title")}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-700">
-              {messages.helpScreen.intro}
+              {t("helpScreen.intro")}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="rounded-full border border-slate-200 bg-white p-2 text-slate-700 shadow hover:bg-slate-100"
-            aria-label={messages.helpScreen.close}
+            aria-label={t("helpScreen.close")}
           >
             <X size={18} />
           </button>
@@ -284,34 +278,29 @@ export function HomeHelpModal({ messages, onClose }: HomeHelpModalProps) {
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <HelpCard
             visual="watch"
-            title={messages.helpScreen.watchTitle}
-            body={messages.helpScreen.watchBody}
-            messages={messages}
+            title={t("helpScreen.watchTitle")}
+            body={t("helpScreen.watchBody")}
           />
           <HelpCard
             visual="reward"
-            title={messages.helpScreen.rewardTitle}
-            body={messages.helpScreen.rewardBody}
-            messages={messages}
+            title={t("helpScreen.rewardTitle")}
+            body={t("helpScreen.rewardBody")}
           />
           <HelpCard
             visual="avoid"
-            title={messages.helpScreen.avoidTitle}
-            body={messages.helpScreen.avoidBody}
-            messages={messages}
+            title={t("helpScreen.avoidTitle")}
+            body={t("helpScreen.avoidBody")}
           />
           <HelpCard
             visual="progress"
-            title={messages.helpScreen.progressTitle}
-            body={messages.helpScreen.progressBody}
-            messages={messages}
+            title={t("helpScreen.progressTitle")}
+            body={t("helpScreen.progressBody")}
           />
           <div className="sm:col-span-2">
             <HelpCard
               visual="certificate"
-              title={messages.helpScreen.certificateTitle}
-              body={messages.helpScreen.certificateBody}
-              messages={messages}
+              title={t("helpScreen.certificateTitle")}
+              body={t("helpScreen.certificateBody")}
             />
           </div>
         </div>
@@ -321,7 +310,7 @@ export function HomeHelpModal({ messages, onClose }: HomeHelpModalProps) {
           onClick={onClose}
           className="mt-5 w-full rounded-2xl bg-blue-600 py-3 font-extrabold text-white shadow hover:bg-blue-700"
         >
-          {messages.helpScreen.close}
+          {t("helpScreen.close")}
         </button>
       </div>
     </div>

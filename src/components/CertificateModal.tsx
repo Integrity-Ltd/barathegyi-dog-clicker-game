@@ -1,13 +1,12 @@
 import { Download } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import type { CompletionResult } from "../game/types";
-import { formatNumber, formatTemplate } from "../i18n/format";
-import type { LanguageCode, Messages } from "../i18n/translations";
+import { formatNumber } from "../i18n/format";
+import { resolveLanguageCode } from "../i18n/translations";
 import { LogoGraphic } from "./GamePieces";
 
 interface CertificateModalProps {
-  language: LanguageCode;
-  messages: Messages;
   completion: CompletionResult;
   volunteerName: string;
   onVolunteerNameChange: (name: string) => void;
@@ -16,21 +15,21 @@ interface CertificateModalProps {
 }
 
 export function CertificateModal({
-  language,
-  messages,
   completion,
   volunteerName,
   onVolunteerNameChange,
   onDownload,
   onClose,
 }: CertificateModalProps) {
+  const { t, i18n } = useTranslation();
+  const language = resolveLanguageCode(i18n.resolvedLanguage);
   const title = completion.assisted
-    ? messages.certificate.assistedTitle
-    : messages.certificate.independentTitle;
+    ? t("certificate.assistedTitle")
+    : t("certificate.independentTitle");
   const formattedClicks = formatNumber(language, completion.clicks);
-  const summaryTemplate = completion.assisted
-    ? messages.certificate.modalAssistedSummary
-    : messages.certificate.modalIndependentSummary;
+  const summary = completion.assisted
+    ? t("certificate.modalAssistedSummary", { clicks: formattedClicks })
+    : t("certificate.modalIndependentSummary", { clicks: formattedClicks });
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
@@ -43,24 +42,24 @@ export function CertificateModal({
             {title}
           </h2>
           <p className="text-sm text-slate-700">
-            {messages.certificate.exerciseName}
+            {t("certificate.exerciseName")}
           </p>
         </div>
 
         <p className="text-center text-slate-900">
-          {formatTemplate(summaryTemplate, { clicks: formattedClicks })}
+          {summary}
         </p>
 
         {completion.assisted ? (
           <div className="rounded-xl border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
             <span className="font-semibold">
-              {messages.certificate.nextChallengeTitle}
+              {t("certificate.nextChallengeTitle")}
             </span>{" "}
-            {messages.certificate.nextChallengeBody}
+            {t("certificate.nextChallengeBody")}
           </div>
         ) : (
           <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-center text-sm font-semibold text-amber-800">
-            {messages.certificate.independentBadge}
+            {t("certificate.independentBadge")}
           </div>
         )}
 
@@ -69,13 +68,13 @@ export function CertificateModal({
             htmlFor="volunteer-name"
             className="text-xs font-semibold text-slate-700"
           >
-            {messages.certificate.volunteerNameLabel}
+            {t("certificate.volunteerNameLabel")}
           </label>
           <input
             id="volunteer-name"
             value={volunteerName}
             onChange={(event) => onVolunteerNameChange(event.target.value)}
-            placeholder={messages.certificate.volunteerNamePlaceholder}
+            placeholder={t("certificate.volunteerNamePlaceholder")}
             className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400"
           />
         </div>
@@ -90,14 +89,14 @@ export function CertificateModal({
           }`}
         >
           <Download size={18} />
-          {formatTemplate(messages.certificate.downloadPng, { document: title })}
+          {t("certificate.downloadPng", { document: title })}
         </button>
         <button
           type="button"
           onClick={onClose}
           className="text-sm text-slate-600 hover:text-slate-800"
         >
-          {messages.certificate.close}
+          {t("certificate.close")}
         </button>
       </div>
     </div>

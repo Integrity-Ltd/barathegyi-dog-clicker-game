@@ -1,19 +1,17 @@
-import { formatNumber, formatTemplate } from "../i18n/format";
-import type { LanguageCode, Messages } from "../i18n/translations";
+import { useTranslation } from "react-i18next";
+
+import { formatNumber } from "../i18n/format";
+import { resolveLanguageCode } from "../i18n/translations";
 
 interface StayProgressBarProps {
-  language: LanguageCode;
-  messages: Messages;
   elapsedSeconds: number;
 }
 
 const stayDurationSeconds = 10;
 
-export function StayProgressBar({
-  language,
-  messages,
-  elapsedSeconds,
-}: StayProgressBarProps) {
+export function StayProgressBar({ elapsedSeconds }: StayProgressBarProps) {
+  const { t, i18n } = useTranslation();
+  const language = resolveLanguageCode(i18n.resolvedLanguage);
   const progress = Math.min(1, Math.max(0, elapsedSeconds / stayDurationSeconds));
   const remainingSeconds = Math.max(
     0,
@@ -24,10 +22,10 @@ export function StayProgressBar({
     <div className="rounded-xl border border-slate-200 bg-white p-3 shadow">
       <div className="mb-2 flex items-center justify-between gap-3 text-sm font-bold">
         <span className="text-slate-900">
-          {messages.ui.stayProgress}
+          {t("ui.stayProgress")}
         </span>
         <span className="text-emerald-700">
-          {formatTemplate(messages.ui.stayRemaining, {
+          {t("ui.stayRemaining", {
             seconds: formatNumber(language, remainingSeconds),
           })}
         </span>

@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { downloadCertificate } from "./certificate/certificate";
 import { CertificateModal } from "./components/CertificateModal";
@@ -10,21 +11,21 @@ import { StayProgressBar } from "./components/StayProgressBar";
 import { StartScreen } from "./components/StartScreen";
 import { useClickerGame } from "./game/useClickerGame";
 import {
-  defaultLanguage,
-  translations,
-  type LanguageCode,
+  getLanguageMeta,
+  resolveLanguageCode,
 } from "./i18n/translations";
 
 export function ClickerTrainer() {
-  const [language, setLanguage] = useState<LanguageCode>(defaultLanguage);
-  const messages = useMemo(() => translations[language], [language]);
+  const { t, i18n } = useTranslation();
+  const language = resolveLanguageCode(i18n.resolvedLanguage);
+  const meta = getLanguageMeta(language);
   const game = useClickerGame();
 
   useEffect(() => {
-    document.documentElement.lang = language;
-    document.documentElement.dir = messages.meta.direction;
-    document.title = messages.meta.documentTitle;
-  }, [language, messages]);
+    document.documentElement.lang = meta.locale;
+    document.documentElement.dir = meta.direction;
+    document.title = t("meta.documentTitle");
+  }, [meta.direction, meta.locale, t]);
 
   const handleDownloadCertificate = () => {
     if (!game.completion) {
@@ -33,7 +34,6 @@ export function ClickerTrainer() {
 
     downloadCertificate({
       language,
-      messages,
       volunteerName: game.volunteerName,
       completion: game.completion,
     });
@@ -41,12 +41,9 @@ export function ClickerTrainer() {
 
   if (!game.started) {
     return (
-      <div dir={messages.meta.direction}>
+      <div dir={meta.direction}>
         <StartScreen
-          language={language}
-          messages={messages}
           hintsOn={game.hintsOn}
-          onLanguageChange={setLanguage}
           onToggleHints={game.actions.toggleHints}
           onStart={() => game.actions.setStarted(true)}
         />
@@ -56,26 +53,22 @@ export function ClickerTrainer() {
 
   return (
     <div
-      dir={messages.meta.direction}
+      dir={meta.direction}
       className="min-h-screen w-full app-shell flex flex-col items-center p-4 select-none"
     >
       <div className="w-full max-w-md flex flex-col gap-3">
         <GameHeader
-          messages={messages}
           onReset={game.actions.reset}
           onReturnHome={game.actions.returnHome}
         />
 
         <GameStats
-          language={language}
-          messages={messages}
           progress={game.progress}
           clicks={game.clicks}
           won={game.won}
         />
 
         <GameBoard
-          messages={messages}
           position={game.position}
           heading={game.heading}
           mode={game.mode}
@@ -92,15 +85,13 @@ export function ClickerTrainer() {
 
         {game.mode === "stay" && game.progress >= 1 && !game.won && (
           <StayProgressBar
-            language={language}
-            messages={messages}
             elapsedSeconds={game.stayElapsed}
           />
         )}
 
         {game.hintsOn && (
           <div className="min-h-12 rounded-xl border border-slate-200 bg-white p-3 text-sm font-medium text-slate-900 shadow flex items-center">
-            {messages.game[game.helpMessageKey]}
+            {t(`game.${game.helpMessageKey}`)}
           </div>
         )}
 
@@ -112,14 +103,12 @@ export function ClickerTrainer() {
             game.won ? "bg-slate-600" : "bg-blue-600 active:bg-blue-700"
           }`}
         >
-          {messages.ui.click}
+          {t("ui.click")}
         </button>
       </div>
 
       {game.showCertificate && game.completion && (
         <CertificateModal
-          language={language}
-          messages={messages}
           completion={game.completion}
           volunteerName={game.volunteerName}
           onVolunteerNameChange={game.actions.setVolunteerName}

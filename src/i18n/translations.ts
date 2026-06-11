@@ -921,4 +921,37 @@ export const languageOptions = Object.values(translations).map(
   ({ meta }) => meta,
 );
 
+export const supportedLanguages = Object.keys(translations) as LanguageCode[];
+
 export const defaultLanguage: LanguageCode = "hu";
+
+export const translationResources = Object.fromEntries(
+  Object.entries(translations).map(([language, messages]) => [
+    language,
+    { translation: messages },
+  ]),
+) as Record<LanguageCode, { translation: Messages }>;
+
+const languageMeta = Object.fromEntries(
+  Object.values(translations).map((messages) => [messages.meta.code, messages.meta]),
+) as Record<LanguageCode, LanguageMeta>;
+
+export function resolveLanguageCode(
+  language: string | undefined,
+): LanguageCode {
+  if (!language) {
+    return defaultLanguage;
+  }
+
+  const baseLanguage = language.split(/[-_]/)[0];
+
+  if (supportedLanguages.includes(baseLanguage as LanguageCode)) {
+    return baseLanguage as LanguageCode;
+  }
+
+  return defaultLanguage;
+}
+
+export function getLanguageMeta(language: string | undefined): LanguageMeta {
+  return languageMeta[resolveLanguageCode(language)];
+}

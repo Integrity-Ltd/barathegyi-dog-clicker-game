@@ -1,11 +1,14 @@
 import logoSrc from "../assets/logo.svg";
 import type { CompletionResult } from "../game/types";
-import { formatDate, formatNumber, formatTemplate } from "../i18n/format";
-import type { LanguageCode, Messages } from "../i18n/translations";
+import { formatDate, formatNumber } from "../i18n/format";
+import i18n from "../i18n/i18n";
+import {
+  getLanguageMeta,
+  type LanguageCode,
+} from "../i18n/translations";
 
 interface CertificateParams {
   language: LanguageCode;
-  messages: Messages;
   volunteerName: string;
   completion: CompletionResult;
 }
@@ -109,8 +112,8 @@ function wrapText(
   return lines;
 }
 
-function getDisplayName(messages: Messages, volunteerName: string): string {
-  return volunteerName.trim() || messages.certificate.defaultVolunteerName;
+function getDisplayName(language: LanguageCode, volunteerName: string): string {
+  return volunteerName.trim() || i18n.getFixedT(language)("certificate.defaultVolunteerName");
 }
 
 function sanitizeFilename(value: string): string {
@@ -126,7 +129,6 @@ function sanitizeFilename(value: string): string {
 
 async function createCertificateCanvas({
   language,
-  messages,
   volunteerName,
   completion,
 }: CertificateParams): Promise<HTMLCanvasElement> {
@@ -142,14 +144,16 @@ async function createCertificateCanvas({
 
   const logoImage = await loadImage(logoSrc);
   const accentColor = LOGO_ORANGE;
+  const t = i18n.getFixedT(language);
+  const meta = getLanguageMeta(language);
   const title = completion.assisted
-    ? messages.certificate.assistedTitle
-    : messages.certificate.independentTitle;
-  const displayName = getDisplayName(messages, volunteerName);
+    ? t("certificate.assistedTitle")
+    : t("certificate.independentTitle");
+  const displayName = getDisplayName(language, volunteerName);
   const formattedClicks = formatNumber(language, completion.clicks);
-  const formattedDate = formatDate(messages, completion.completedAt);
+  const formattedDate = formatDate(language, completion.completedAt);
 
-  context.direction = messages.meta.direction;
+  context.direction = meta.direction;
   context.fillStyle = "#fffdf5";
   context.fillRect(0, 0, CERTIFICATE_WIDTH, CERTIFICATE_HEIGHT);
 
@@ -166,11 +170,11 @@ async function createCertificateCanvas({
   context.textAlign = "center";
   context.fillStyle = "#181818";
   context.font = '900 42px Arial, "Noto Sans", sans-serif';
-  context.fillText(title.toLocaleUpperCase(messages.meta.locale), CERTIFICATE_WIDTH / 2, 258);
+  context.fillText(title.toLocaleUpperCase(meta.locale), CERTIFICATE_WIDTH / 2, 258);
 
   context.font = '18px Arial, "Noto Sans", sans-serif';
   context.fillStyle = "#666";
-  context.fillText(messages.certificate.exerciseName, CERTIFICATE_WIDTH / 2, 290);
+  context.fillText(t("certificate.exerciseName"), CERTIFICATE_WIDTH / 2, 290);
 
   context.beginPath();
   context.moveTo(CERTIFICATE_WIDTH / 2 - 235, 308);
@@ -181,7 +185,7 @@ async function createCertificateCanvas({
 
   context.fillStyle = "#333";
   context.font = '21px Arial, "Noto Sans", sans-serif';
-  context.fillText(messages.certificate.participantIntro, CERTIFICATE_WIDTH / 2, 360);
+  context.fillText(t("certificate.participantIntro"), CERTIFICATE_WIDTH / 2, 360);
 
   context.fillStyle = LOGO_ORANGE_DARK;
   context.font = '900 38px Georgia, "Times New Roman", serif';
@@ -191,12 +195,12 @@ async function createCertificateCanvas({
   context.font = '21px Arial, "Noto Sans", sans-serif';
 
   if (completion.assisted) {
-    context.fillText(messages.certificate.assistedSupportLine, CERTIFICATE_WIDTH / 2, 452);
+    context.fillText(t("certificate.assistedSupportLine"), CERTIFICATE_WIDTH / 2, 452);
 
     context.fillStyle = LOGO_ORANGE_DARK;
     context.font = '900 32px Arial, "Noto Sans", sans-serif';
     context.fillText(
-      formatTemplate(messages.certificate.assistedClickLine, {
+      t("certificate.assistedClickLine", {
         clicks: formattedClicks,
       }),
       CERTIFICATE_WIDTH / 2,
@@ -205,7 +209,7 @@ async function createCertificateCanvas({
 
     context.fillStyle = "#333";
     context.font = '21px Arial, "Noto Sans", sans-serif';
-    context.fillText(messages.certificate.assistedSuccessLine, CERTIFICATE_WIDTH / 2, 532);
+    context.fillText(t("certificate.assistedSuccessLine"), CERTIFICATE_WIDTH / 2, 532);
 
     const boxX = CERTIFICATE_WIDTH / 2 - 345;
     const boxY = 562;
@@ -222,7 +226,7 @@ async function createCertificateCanvas({
     context.font = 'italic 19px Arial, "Noto Sans", sans-serif';
     wrapText(
       context,
-      messages.certificate.assistedChallengeBody,
+      t("certificate.assistedChallengeBody"),
       CERTIFICATE_WIDTH / 2,
       boxY + 36,
       boxWidth - 70,
@@ -230,14 +234,14 @@ async function createCertificateCanvas({
     );
   } else {
     context.fillText(
-      formatTemplate(messages.certificate.independentClickLine, {
+      t("certificate.independentClickLine", {
         clicks: formattedClicks,
       }),
       CERTIFICATE_WIDTH / 2,
       472,
     );
 
-    context.fillText(messages.certificate.independentSuccessLine, CERTIFICATE_WIDTH / 2, 514);
+    context.fillText(t("certificate.independentSuccessLine"), CERTIFICATE_WIDTH / 2, 514);
 
     const boxX = CERTIFICATE_WIDTH / 2 - 310;
     const boxY = 548;
@@ -252,13 +256,13 @@ async function createCertificateCanvas({
 
     context.fillStyle = "#92600a";
     context.font = '900 24px Arial, "Noto Sans", sans-serif';
-    context.fillText(messages.certificate.independentBadge, CERTIFICATE_WIDTH / 2, boxY + 50);
+    context.fillText(t("certificate.independentBadge"), CERTIFICATE_WIDTH / 2, boxY + 50);
   }
 
   context.fillStyle = "#888";
   context.font = '17px Arial, "Noto Sans", sans-serif';
   context.fillText(
-    formatTemplate(messages.certificate.issuedAt, {
+    t("certificate.issuedAt", {
       date: formattedDate,
     }),
     CERTIFICATE_WIDTH / 2,
@@ -274,7 +278,7 @@ async function createCertificateCanvas({
 
   context.fillStyle = "#666";
   context.font = '16px Arial, "Noto Sans", sans-serif';
-  context.fillText(messages.certificate.organizationLine, CERTIFICATE_WIDTH / 2, 755);
+  context.fillText(t("certificate.organizationLine"), CERTIFICATE_WIDTH / 2, 755);
 
   return canvas;
 }
@@ -287,7 +291,7 @@ export async function downloadCertificate(params: CertificateParams) {
     ? "participation-certificate"
     : "training-certificate";
   const nameSlug = sanitizeFilename(
-    getDisplayName(params.messages, params.volunteerName),
+    getDisplayName(params.language, params.volunteerName),
   );
 
   anchor.href = url;

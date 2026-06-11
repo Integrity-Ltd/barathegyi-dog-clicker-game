@@ -1,5 +1,6 @@
 import { m } from "framer-motion";
 import { Award } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import {
   DOG_SAFE_EDGE_PX,
@@ -9,13 +10,10 @@ import {
 } from "../game/config";
 import { getPoseForMode } from "../game/math";
 import type { FlashType, GameMode, JoyEffect, LieType, Point } from "../game/types";
-import { formatTemplate } from "../i18n/format";
-import type { Messages } from "../i18n/translations";
 import { DogSprite, FurnitureSprite, HandlerSprite } from "./GamePieces";
 import { LogoCarpet } from "./LogoCarpet";
 
 interface GameBoardProps {
-  messages: Messages;
   position: Point;
   heading: number;
   mode: GameMode;
@@ -31,7 +29,6 @@ interface GameBoardProps {
 }
 
 export function GameBoard({
-  messages,
   position,
   heading,
   mode,
@@ -45,6 +42,7 @@ export function GameBoard({
   joys,
   onOpenCertificate,
 }: GameBoardProps) {
+  const { t } = useTranslation();
   const flashBorder =
     flash === "good"
       ? "border-emerald-400"
@@ -140,7 +138,7 @@ export function GameBoard({
           className="absolute left-1/2 top-2 -translate-x-1/2 rounded-full border border-slate-200 bg-white/95 px-3 py-1 text-xs font-semibold text-slate-900 shadow"
           style={{ zIndex: 40 }}
         >
-          {formatTemplate(messages.hints.frozenCountdown, {
+          {t("hints.frozenCountdown", {
             seconds: frozenLeft.toFixed(1),
           })}
         </div>
@@ -150,7 +148,7 @@ export function GameBoard({
           className="absolute left-1/2 top-2 -translate-x-1/2 rounded-full border border-slate-200 bg-white/95 px-3 py-1 text-xs font-semibold text-slate-900 shadow"
           style={{ zIndex: 40 }}
         >
-          {messages.hints.rearLie}
+          {t("hints.rearLie")}
         </div>
       )}
 
@@ -176,7 +174,7 @@ export function GameBoard({
             onClick={onOpenCertificate}
             className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/95 px-4 py-3 font-bold text-emerald-800 shadow"
           >
-            <Award size={20} /> {messages.ui.openCertificate}
+            <Award size={20} /> {t("ui.openCertificate")}
           </button>
         </div>
       )}
